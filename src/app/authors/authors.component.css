@@ -1,0 +1,7 @@
+.main-body{
+    padding-top: 20px;
+    width: 100%;
+    mat-form-field{
+        width: 100%;
+    }
+}

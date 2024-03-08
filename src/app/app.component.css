@@ -1,0 +1,9 @@
+  mat-toolbar{
+    background-color: green;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .mat-raised-button{
+    margin-right: 50px;
+  }
