@@ -7,6 +7,8 @@ import { AuthorsService } from '../services/authors.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { CoreService } from '../core/core.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-authors',
@@ -38,7 +40,13 @@ export class AuthorsComponent {
   //array that initially stores all authors to display in table
   authors: Author[] = [];
 
-  constructor(private dialog: MatDialog, private authorService: AuthorsService, private router: Router){}
+  constructor(
+    private dialog: MatDialog, 
+    private authorService: AuthorsService, 
+    private router: Router,
+    private coreService: CoreService,//used for all other snackbars
+    private snackBar: MatSnackBar,//used for delete confirmation
+    ){}
 
   //this is for clicking on "create author" button top-right corner
   openCudAuthors(){
@@ -77,11 +85,28 @@ export class AuthorsComponent {
     }
   }
 
+  //confirm the user actually wants to delete the specified author
+  confirmAuthorDelete(id: number){
+    const snackBarRef = this.snackBar.open('Are you sure you want to delete this author?', 'Delete', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
+    //if user clicks 'delete' button, then delete the author
+    snackBarRef.onAction().subscribe(() => {
+      this.deleteAuthor(id);
+    })
+  }
+
+
   //uses service to delete user-specified author from pubs authors table
   deleteAuthor(id: number){
+
+    //do some kind of check above here to ensure the user 
+    //actually wants to delete this author
     this.authorService.deleteAuthor(id).subscribe({
       next: (res) => {
-        alert('Employee deleted successfully!');
+        this.coreService.openSnackBar('Employee deleted successfully!', 'done');
         this.getAuthors();//updates authors on UI (to show deleted one)
       },
       error: console.log

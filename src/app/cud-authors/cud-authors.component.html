@@ -3,14 +3,14 @@ for creating and updating (editing) authors in pubs-->
 
 <!--If form has data, title it for updating
 otherwise title form for creating author-->
-<div mat-dialog-title>
-    <h1>{{data ? 'Update Author': 'Create Author'}}</h1>
+<div mat-dialog-title id = "head">
+    <h1><b>{{data ? 'Update Author': 'Create Author'}}</b></h1>
 </div>
 <form [formGroup]="authorsForm" (ngSubmit)="onFormSubmit()">
 <div mat-dialog-content class = "content">
     <!--First & last name input fields-->
     <div class="row">
-         <mat-form-field appearence="outline">
+        <mat-form-field appearence="outline">
            <mat-label>First Name</mat-label>
            <input matInput type="text" placeholder="Ex. Alec" formControlName="au_fname">
         </mat-form-field>
@@ -47,15 +47,18 @@ otherwise title form for creating author-->
           <mat-label>Zip</mat-label>
           <input matInput type="text" placeholder="Ex. 11111" formControlName="zip">
        </mat-form-field>
-       <mat-form-field appearence="outline">
-        <mat-label>Contract</mat-label>
-        <input matInput type="text" placeholder="Ex. true" formControlName="contract">
-     </mat-form-field>
+
+        <!--new contract input ratio-button using *ngIf-->
+        <mat-radio-group aria-label="Select an option" formControlName = "contract">
+            <mat-label id = "contract">Contract</mat-label>
+            <mat-radio-button value = "true">True</mat-radio-button>
+            <mat-radio-button value = "false">False</mat-radio-button>
+        </mat-radio-group>
    </div>
 <!--Cancel and (update or save) button-->
 </div>
 <div mat-dialog-actions class="action">
-    <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-    <button mat-raised-button type="submit">{{data ? 'Update': 'Save'}}</button><!--if data, show Update, otherwise is Save button-->
+    <button mat-raised-button color = primary type="button" [mat-dialog-close]="false">Cancel</button>
+    <button mat-raised-button color = primary type="submit">{{data ? 'Update': 'Save'}}</button><!--if data, show Update, otherwise is Save button-->
 </div>
 </form>

@@ -59,7 +59,7 @@ displayed in this table-->
         <td mat-cell *matCellDef="let row"> {{row.zip}} </td>
       </ng-container>
 
-      <!-- Contract Column -->
+      <!-- Contract Column-->
       <ng-container matColumnDef="contract">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Contract </th>
         <td mat-cell *matCellDef="let row"> {{row.contract}} </td>
@@ -69,8 +69,16 @@ displayed in this table-->
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
         <td mat-cell *matCellDef="let row"> 
-          <button (click) = "openEditForm(row)">Edit</button>
-          <button (click) = "deleteAuthor(row.au_id)">Delete</button>
+          <div class = "buttons">
+            <div class = "icon">
+              <button mat-icon-button color = "basic" (click) = "openEditForm(row)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color = "warn" (click) = "confirmAuthorDelete(row.au_id)"><!--was deleteAuthor()-->
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
         </td>
       </ng-container>
   

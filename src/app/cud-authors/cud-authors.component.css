@@ -1,13 +1,33 @@
-.content{
-    padding-top: 10px;
+#head{
+    background-color: gray;
+    color: white;
 }
+h1{
+    background-color: gray;
+    color: white;
+    text-align: center;
+}
+.content{ /* When I comment this out I can see my radio buttons */
+    padding-top: 10px;
+    background-color: gray;
+    color: #000003;
+} 
 .row{
     display: flex;
     gap: 10px;
 }
 .action{
     padding: 0px 25px 20px;
+    background-color: gray;
+    color: white;
     button{
-        flex: 1
+        flex: 1;
     }
 }
+mat-label{
+    color: white;
+} 
+/*#contract{
+    color: #000003;
+}*/
+

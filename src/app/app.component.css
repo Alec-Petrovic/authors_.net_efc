@@ -4,6 +4,15 @@
   .example-spacer {
     flex: 1 1 auto;
   }
-  .mat-raised-button{
-    margin-right: 50px;
+  .buttons{
+    display: table;
   }
+  .raised{
+    display: table-cell;
+    margin-left: 10px;
+  }
+  .raised .mat-mdc-button-base{
+    margin: 8px 8px 8px 0;
+  }
+  
+  

@@ -2,11 +2,15 @@
 <mat-toolbar>
   <span class="center-horizontal">Authors Display</span>
   <span class="example-spacer"></span>
-  <button mat-raised-button (click) = "displayAuthors()"> Display Authors </button>
-  <button mat-raised-button (click) = "displayBooks()"> Search Books </button>
-  <button mat-raised-button (click) = "openCudAuthors()">
-    Create Author
-  </button>
+  <div class = "buttons">
+    <div class = "raised">
+      <button mat-raised-button color = primary (click) = "displayAuthors()"> Display Authors </button>
+      <button mat-raised-button color = primary (click) = "displayBooks()"> Search Books </button>
+      <button mat-raised-button color = primary (click) = "openCudAuthors()">
+       Create Author
+      </button>
+  </div>
+</div>
 </mat-toolbar>
 <!--routes between displaying authors & books-->
 <router-outlet></router-outlet>
