@@ -104,7 +104,7 @@ export class AuthorsComponent {
 
     //do some kind of check above here to ensure the user 
     //actually wants to delete this author
-    this.authorService.deleteAuthor(id).subscribe({
+    this.authorService.deleteAuthor(id.toString()).subscribe({
       next: (res) => {
         this.coreService.openSnackBar('Employee deleted successfully!', 'done');
         this.getAuthors();//updates authors on UI (to show deleted one)

@@ -25,7 +25,7 @@ export class CudAuthorsComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
     ){
     //building my form using FormBuilder fb
-    this.authorsForm = this.fb.group({
+    this.authorsForm = this.fb.group({//was all lowercase
       au_fname: ' ',
       au_lname: ' ',
       phone: ' ',
@@ -59,7 +59,7 @@ export class CudAuthorsComponent implements OnInit {
       else{//otherwise (form is initially empty), creating new author
       console.log(this.authorsForm.value.contract);
       console.log(this.authorsForm.value);
-      this.authorService.createAuthor(this.authorsForm.value).subscribe({
+      this.authorService.createAuthor(this.authorsForm.value).subscribe({//something goes wrong here!
         next: (val: any) => {
           this.coreService.openSnackBar('Author has successfully been created!!', 'done');
           this.dialogRef.close(true);
@@ -75,7 +75,9 @@ export class CudAuthorsComponent implements OnInit {
   //inserts authors data into their 'Edit Authors' pop-up window
   ngOnInit(): void {
     //changes contact value to string value so it is displayed in "edit" window
-    this.data.contract = this.data.contract.toString();
+    if(this.data){//may need to get rid of this if statement
+      this.data.contract = this.data.contract.toString();
+    }
     this.authorsForm.patchValue(this.data);
   }
 }

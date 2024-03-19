@@ -1,5 +1,5 @@
 {
-  "name": "authors3",
+  "name": "authors_.net",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:authors3": "node dist/authors3/server/server.mjs"
+    "serve:ssr:authors_.net": "node dist/authors_.net/server/server.mjs"
   },
   "private": true,
   "dependencies": {
