@@ -9,14 +9,19 @@ otherwise title form for creating author-->
 <form [formGroup]="authorsForm" (ngSubmit)="onFormSubmit()">
 <div mat-dialog-content class = "content">
     <!--First & last name input fields-->
-    <div class="row"><!--hhjhghjghjg-->
+    <div class="row">
         <mat-form-field appearence="outline">
            <mat-label>First Name</mat-label>
            <input matInput type="text" placeholder="Ex. Alec" formControlName="au_fname">
+           <!--mat-hint>Less than 20 characters</mat-hint-->
+           <mat-error *ngIf="authorsForm.get('au_fname')?.hasError('required')">First Name is required</mat-error>
+           <mat-error *ngIf="authorsForm.get('au_fname')?.hasError('pattern')">Must be under 20 characters</mat-error>
         </mat-form-field>
         <mat-form-field appearence="outline">
             <mat-label>Last Name</mat-label>
             <input matInput placeholder="Ex. Petrovic" formControlName="au_lname">
+            <mat-error *ngIf="authorsForm.get('au_lname')?.hasError('required')">Last Name is required</mat-error>
+            <mat-error *ngIf="authorsForm.get('au_lname')?.hasError('pattern')">Must be under 40 characters</mat-error>
          </mat-form-field>
     </div>
     <!--Phone & address input fields-->
@@ -24,10 +29,13 @@ otherwise title form for creating author-->
         <mat-form-field appearence="outline">
          <mat-label>Phone</mat-label>
         <input matInput type="text" placeholder="Ex. 905-323-4323" formControlName="phone">
+        <mat-error *ngIf="authorsForm.get('phone')?.hasError('required')">Phone number is required</mat-error>
+        <mat-error *ngIf="authorsForm.get('phone')?.hasError('pattern')">Invalid format. Ex. xxx-xxx-xxxx</mat-error>
     </mat-form-field>
     <mat-form-field appearence="outline">
          <mat-label>Address</mat-label>
          <input matInput placeholder="Ex. 301 St. Paul St." formControlName="address">
+         <mat-error *ngIf="authorsForm.get('address')?.hasError('pattern')">Must be under 40 characters</mat-error>
      </mat-form-field>
     </div>
     <!--City & state input fields-->
@@ -35,10 +43,12 @@ otherwise title form for creating author-->
         <mat-form-field appearence="outline">
          <mat-label>City</mat-label>
         <input matInput type="text" placeholder="Ex. Niagara Falls" formControlName="city">
+        <mat-error *ngIf="authorsForm.get('city')?.hasError('pattern')">Must be under 20 characters</mat-error>
     </mat-form-field>
     <mat-form-field appearence="outline">
          <mat-label>State</mat-label>
          <input matInput placeholder="Ex. CA" formControlName="state">
+         <mat-error *ngIf="authorsForm.get('state')?.hasError('pattern')">Invalid format. Ex. CA</mat-error>
      </mat-form-field>
     </div>
     <!--zip & contract input fields-->
@@ -46,6 +56,7 @@ otherwise title form for creating author-->
         <mat-form-field appearence="outline">
           <mat-label>Zip</mat-label>
           <input matInput type="text" placeholder="Ex. 11111" formControlName="zip">
+          <mat-error *ngIf="authorsForm.get('zip')?.hasError('pattern')">Invalid format. Ex. 75634</mat-error>
        </mat-form-field>
 
         <!--new contract input ratio-button using *ngIf-->
@@ -53,6 +64,7 @@ otherwise title form for creating author-->
             <mat-label id = "contract">Contract</mat-label>
             <mat-radio-button value = "true">True</mat-radio-button>
             <mat-radio-button value = "false">False</mat-radio-button>
+            <mat-error *ngIf="authorsForm.get('contract')?.hasError('required')">Input is required</mat-error>
         </mat-radio-group>
    </div>
 <!--Cancel and (update or save) button-->

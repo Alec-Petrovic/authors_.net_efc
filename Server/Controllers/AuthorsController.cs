@@ -111,10 +111,30 @@ namespace WebApplication1.Controllers
                     myCommand.Parameters.AddWithValue("@au_lname", newAuthor.au_lname);
                     myCommand.Parameters.AddWithValue("@au_fname", newAuthor.au_fname);
                     myCommand.Parameters.AddWithValue("@phone", newAuthor.phone);
-                    myCommand.Parameters.AddWithValue("@address", newAuthor.address);
-                    myCommand.Parameters.AddWithValue("@city", newAuthor.city);
-                    myCommand.Parameters.AddWithValue("@state", newAuthor.state);
-                    myCommand.Parameters.AddWithValue("@zip", newAuthor.zip);
+                    if(!string.IsNullOrEmpty(newAuthor.address)){
+                        myCommand.Parameters.AddWithValue("@address", newAuthor.address);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@address", DBNull.Value);
+                    }
+                    if(!string.IsNullOrEmpty(newAuthor.city)){
+                        myCommand.Parameters.AddWithValue("@city", newAuthor.city);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@city", DBNull.Value);
+                    }
+                    if(!string.IsNullOrEmpty(newAuthor.state)){
+                        myCommand.Parameters.AddWithValue("@state", newAuthor.state);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@state", DBNull.Value);
+                    }
+                    if(!string.IsNullOrEmpty(newAuthor.zip)){
+                        myCommand.Parameters.AddWithValue("@zip", newAuthor.zip);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@zip", DBNull.Value);
+                    }
                     myCommand.Parameters.AddWithValue("@contract", isContract);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -171,10 +191,30 @@ namespace WebApplication1.Controllers
                     myCommand.Parameters.AddWithValue("@au_fname", updatedAuthor.au_fname);
                     myCommand.Parameters.AddWithValue("@au_lname", updatedAuthor.au_lname);
                     myCommand.Parameters.AddWithValue("@phone", updatedAuthor.phone);
-                    myCommand.Parameters.AddWithValue("@address", updatedAuthor.address);
-                    myCommand.Parameters.AddWithValue("@city", updatedAuthor.city);
-                    myCommand.Parameters.AddWithValue("@state", updatedAuthor.state);
-                    myCommand.Parameters.AddWithValue("@zip", updatedAuthor.zip);
+                    if(!string.IsNullOrEmpty(updatedAuthor.address)){
+                        myCommand.Parameters.AddWithValue("@address", updatedAuthor.address);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@address", DBNull.Value);
+                    }
+                    if(!string.IsNullOrEmpty(updatedAuthor.city)){
+                        myCommand.Parameters.AddWithValue("@city", updatedAuthor.city);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@city", DBNull.Value);
+                    }
+                    if(!string.IsNullOrEmpty(updatedAuthor.state)){
+                        myCommand.Parameters.AddWithValue("@state", updatedAuthor.state);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@state", DBNull.Value);
+                    }
+                    if(!string.IsNullOrEmpty(updatedAuthor.zip)){
+                        myCommand.Parameters.AddWithValue("@zip", updatedAuthor.zip);
+                    }
+                    else{
+                        myCommand.Parameters.AddWithValue("@zip", DBNull.Value);
+                    }
                     myCommand.Parameters.AddWithValue("@contract", isContract);
                     myCommand.Parameters.AddWithValue("@au_id", id);
                     myReader = myCommand.ExecuteReader();

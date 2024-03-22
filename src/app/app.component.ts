@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'authors3';
+  title = 'Authors Display';
+  showCreateAuthorButton = true;
 
   constructor(private dialog: MatDialog, private router: Router){}
 
@@ -21,10 +22,14 @@ export class AppComponent {
   //displays books when I click 'search books'
   displayBooks(){
     this.router.navigate(['/books']);
+    this.title = 'Books Display';
+    this.showCreateAuthorButton = false;
   }
 
   //displays authors when I click 'display authors'
   displayAuthors(){
     this.router.navigate(['']);
+    this.title = 'Authors Display';
+    this.showCreateAuthorButton = true;
   }
 }

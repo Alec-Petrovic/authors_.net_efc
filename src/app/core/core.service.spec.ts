@@ -1,3 +1,5 @@
+//test suite and first test case works!
+
 import { TestBed } from '@angular/core/testing';
 
 import { CoreService } from './core.service';

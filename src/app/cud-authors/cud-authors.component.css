@@ -27,7 +27,9 @@ h1{
 mat-label{
     color: white;
 } 
-/*#contract{
-    color: #000003;
-}*/
+mat-hint{
+    color: white;
+    padding-bottom: 10px;
+}
+
 

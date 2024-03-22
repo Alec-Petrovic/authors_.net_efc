@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthorsService } from '../services/authors.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CoreService } from '../core/core.service';
+import { Validators } from '@angular/forms';//FormControl was here
 
 @Component({
   selector: 'app-cud-authors',
@@ -22,18 +23,19 @@ export class CudAuthorsComponent implements OnInit {
     private authorService: AuthorsService,
     private dialogRef: MatDialogRef<CudAuthorsComponent>,
     private coreService: CoreService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    //@Inject('MatMdcDialogData') public dialogData: any // Inject MatMdcDialogData
     ){
     //building my form using FormBuilder fb
     this.authorsForm = this.fb.group({//was all lowercase
-      au_fname: ' ',
-      au_lname: ' ',
-      phone: ' ',
-      address: ' ',
-      city: ' ',
-      state: ' ',
-      zip: ' ',
-      contract: ' ', //was boolean value true
+      au_fname: ['', [Validators.required, Validators.pattern(/^.{1,20}$/)]],
+      au_lname: ['', [Validators.required, Validators.pattern(/^.{1,40}$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{3}-\d{3}-\d{4}$/)]],
+      address: ['', [Validators.pattern(/^.{1,40}$/)]],
+      city: ['', [Validators.pattern(/^.{1,20}$/)]],
+      state: ['', [Validators.pattern(/^[A-Z]{2}$/)]],
+      zip: ['', [Validators.pattern(/^\d{5}$/)]],
+      contract: ['', [Validators.required]], //was boolean value true
     })
   }
   //function called when user 'submits' the dialog-form to 
@@ -59,7 +61,7 @@ export class CudAuthorsComponent implements OnInit {
       else{//otherwise (form is initially empty), creating new author
       console.log(this.authorsForm.value.contract);
       console.log(this.authorsForm.value);
-      this.authorService.createAuthor(this.authorsForm.value).subscribe({//something goes wrong here!
+      this.authorService.createAuthor(this.authorsForm.value).subscribe({
         next: (val: any) => {
           this.coreService.openSnackBar('Author has successfully been created!!', 'done');
           this.dialogRef.close(true);
@@ -76,7 +78,7 @@ export class CudAuthorsComponent implements OnInit {
   ngOnInit(): void {
     //changes contact value to string value so it is displayed in "edit" window
     if(this.data){//may need to get rid of this if statement
-      this.data.contract = this.data.contract.toString();
+      this.data.contract = this.data.contract?.toString();
     }
     this.authorsForm.patchValue(this.data);
   }

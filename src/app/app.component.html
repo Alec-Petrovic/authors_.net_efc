@@ -1,14 +1,12 @@
 <!--The header for my application-->
 <mat-toolbar>
-  <span class="center-horizontal">Authors Display</span>
+  <span class="center-horizontal">{{ title }}</span>
   <span class="example-spacer"></span>
   <div class = "buttons">
     <div class = "raised">
+      <button *ngIf="showCreateAuthorButton" mat-raised-button color = primary (click) = "openCudAuthors()"> Create Author </button>
       <button mat-raised-button color = primary (click) = "displayAuthors()"> Display Authors </button>
       <button mat-raised-button color = primary (click) = "displayBooks()"> Search Books </button>
-      <button mat-raised-button color = primary (click) = "openCudAuthors()">
-       Create Author
-      </button>
   </div>
 </div>
 </mat-toolbar>
