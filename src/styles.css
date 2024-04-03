@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Everything below here is new and may need to be removed */
+selector {
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga'; /* Define standard property for compatibility */
+  }
+/* For -webkit-appearance */
+selector {
+    -webkit-appearance: value;
+    appearance: value; /* Define standard property for compatibility */
+}
+
+/* For -moz-appearance */
+selector {
+    -moz-appearance: value;
+    appearance: value; /* Define standard property for compatibility */
+}

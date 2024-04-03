@@ -1,8 +1,16 @@
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using Server.Models;
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+// Add DbContext configuration
+builder.Services.AddDbContext<PubsContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("pubsDBCon")));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -9,7 +9,7 @@ import { Observable, catchError, throwError } from 'rxjs'
 })
 export class AuthorsService {
 
-  private apiUrl = 'http://localhost:5044/api/TodoApp/';
+  private apiUrl = 'http://localhost:5044/api/Authors/';
   constructor(private http: HttpClient) { }
 
   //Gets all authors from pubs database to be displayed 
@@ -38,17 +38,7 @@ export class AuthorsService {
 
   //creates user-defined author in pubs database (authors table)
   createAuthor(data: any): Observable<any> {
-    const formData = new FormData();
-    formData.append('au_fname', data.au_fname);
-    formData.append('au_lname', data.au_lname);
-    formData.append('phone', data.phone);
-    formData.append('address', data.address);
-    formData.append('city', data.city);
-    formData.append('state', data.state);
-    formData.append('zip', data.zip);
-    formData.append('contract', data.contract);
-
-    return this.http.post(this.apiUrl+'CreateAuthor', formData).pipe(
+    return this.http.post(this.apiUrl + 'CreateAuthor', data).pipe(
       catchError(this.handleError)
     );
   }

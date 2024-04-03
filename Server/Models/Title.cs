@@ -5,25 +5,25 @@ namespace Server.Models;
 
 public partial class Title
 {
-    public string TitleId { get; set; } = null!;
+    public string title_id { get; set; } = null!;
 
-    public string Title1 { get; set; } = null!;
+    public string title { get; set; } = null!;
 
-    public string Type { get; set; } = null!;
+    public string type { get; set; } = null!;
 
-    public string? PubId { get; set; }
+    public string? pub_id { get; set; }
 
-    public decimal? Price { get; set; }
+    public decimal? price { get; set; }
 
-    public decimal? Advance { get; set; }
+    public decimal? advance { get; set; }
 
-    public int? Royalty { get; set; }
+    public int? royalty { get; set; }
 
-    public int? YtdSales { get; set; }
+    public int? ytd_sales { get; set; }
 
-    public string? Notes { get; set; }
+    public string? notes { get; set; }
 
-    public DateTime Pubdate { get; set; }
+    public DateTime pubdate { get; set; }
 
     public virtual Publisher? Pub { get; set; }
 

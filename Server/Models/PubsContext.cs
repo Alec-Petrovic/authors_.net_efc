@@ -1,7 +1,4 @@
-﻿//this class represents the pubs database context and allows me
-//to interact with the database
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,7 +55,7 @@ public partial class PubsContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=ON44C03431532\\MSSQLSERVER01;Database=pubs;Trusted_Connection=True;Encrypt=False;");
+        => optionsBuilder.UseSqlServer("Server=ON44C03431532\\MSSQLSERVER01;Database=pubs;Trusted_Connection=True;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -491,50 +488,50 @@ public partial class PubsContext : DbContext
 
         modelBuilder.Entity<Title>(entity =>
         {
-            entity.HasKey(e => e.TitleId).HasName("UPKCL_titleidind");
+            entity.HasKey(e => e.title_id).HasName("UPKCL_titleidind");
 
             entity.ToTable("titles");
 
-            entity.HasIndex(e => e.Title1, "titleind");
+            entity.HasIndex(e => e.title, "titleind");
 
-            entity.Property(e => e.TitleId)
+            entity.Property(e => e.title_id)
                 .HasMaxLength(6)
                 .IsUnicode(false)
                 .HasColumnName("title_id");
-            entity.Property(e => e.Advance)
+            entity.Property(e => e.advance)
                 .HasColumnType("money")
                 .HasColumnName("advance");
-            entity.Property(e => e.Notes)
+            entity.Property(e => e.notes)
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("notes");
-            entity.Property(e => e.Price)
+            entity.Property(e => e.price)
                 .HasColumnType("money")
                 .HasColumnName("price");
-            entity.Property(e => e.PubId)
+            entity.Property(e => e.pub_id)
                 .HasMaxLength(4)
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("pub_id");
-            entity.Property(e => e.Pubdate)
+            entity.Property(e => e.pubdate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("pubdate");
-            entity.Property(e => e.Royalty).HasColumnName("royalty");
-            entity.Property(e => e.Title1)
+            entity.Property(e => e.royalty).HasColumnName("royalty");
+            entity.Property(e => e.title)
                 .HasMaxLength(80)
                 .IsUnicode(false)
                 .HasColumnName("title");
-            entity.Property(e => e.Type)
+            entity.Property(e => e.type)
                 .HasMaxLength(12)
                 .IsUnicode(false)
                 .HasDefaultValue("UNDECIDED")
                 .IsFixedLength()
                 .HasColumnName("type");
-            entity.Property(e => e.YtdSales).HasColumnName("ytd_sales");
+            entity.Property(e => e.ytd_sales).HasColumnName("ytd_sales");
 
             entity.HasOne(d => d.Pub).WithMany(p => p.Titles)
-                .HasForeignKey(d => d.PubId)
+                .HasForeignKey(d => d.pub_id)
                 .HasConstraintName("FK__titles__pub_id__412EB0B6");
         });
 

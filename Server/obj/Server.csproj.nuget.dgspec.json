@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net\\Server\\Server.csproj": {}
+    "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net_efc\\Server\\Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net\\Server\\Server.csproj": {
+    "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net_efc\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net\\Server\\Server.csproj",
+        "projectUniqueName": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net_efc\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net\\Server\\Server.csproj",
+        "projectPath": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net_efc\\Server\\Server.csproj",
         "packagesPath": "C:\\Users\\PetrovA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net\\Server\\obj\\",
+        "outputPath": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net_efc\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,4 +1,4 @@
-//test suite and first test case works!!
+//test suite and first three test cases works!!
 
 import { TestBed } from '@angular/core/testing';
 import { AuthorsService } from './authors.service';

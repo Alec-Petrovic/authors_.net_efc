@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gZI2nRtH8mtgU8ITDenVBxYeuJZ4NEdlaRKi1u/lNdkkVBRtCz/xSq1Sf4ktBj0WfDagyWEq+XwGz33pwzMzag==",
+  "dgSpecHash": "NR6y2OpxGGw9wIcbcD/BY95lC2VM6EKrWNSmDeuVNR3VsAlPCmx30u59/3s7q+MixZ72RQAxSLDNh7l7jHuEdA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Users\\PetrovA\\OneDrive - Government of Ontario\\Desktop\\Angular-practice\\authors_.net_efc\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PetrovA\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\PetrovA\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

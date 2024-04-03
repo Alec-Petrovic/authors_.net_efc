@@ -35,7 +35,7 @@ export class CudAuthorsComponent implements OnInit {
       city: ['', [Validators.pattern(/^.{1,20}$/)]],
       state: ['', [Validators.pattern(/^[A-Z]{2}$/)]],
       zip: ['', [Validators.pattern(/^\d{5}$/)]],
-      contract: ['', [Validators.required]], //was boolean value true
+      contract: ['', [Validators.required]], //contract value can still be a boolean!
     })
   }
   //function called when user 'submits' the dialog-form to 
@@ -59,7 +59,13 @@ export class CudAuthorsComponent implements OnInit {
         });  
       }
       else{//otherwise (form is initially empty), creating new author
-      console.log(this.authorsForm.value.contract);
+        this.authorBeingCreated();
+      }
+    }
+  }
+
+  authorBeingCreated(){
+    console.log(this.authorsForm.value.contract);
       console.log(this.authorsForm.value);
       this.authorService.createAuthor(this.authorsForm.value).subscribe({
         next: (val: any) => {
@@ -70,9 +76,8 @@ export class CudAuthorsComponent implements OnInit {
           console.error(err);
         }
       });   
-    }
-    }
   }
+  
 
   //inserts authors data into their 'Edit Authors' pop-up window
   ngOnInit(): void {

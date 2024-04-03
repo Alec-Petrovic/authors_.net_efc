@@ -12,11 +12,13 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]//change this to change routes
     [ApiController]
 
-    public class TodoAppController : ControllerBase//change this to change routes
+    public class AuthorsController : ControllerBase//change this to change routes
     {
         private IConfiguration _configuration ;//used to get database connection details?
-        public TodoAppController(IConfiguration configuration)
+        private readonly PubsContext _context;//readonly may cause problems later
+        public AuthorsController(PubsContext context,IConfiguration configuration)
         {
+            _context = context;
             _configuration = configuration;
         }
 
@@ -38,197 +40,164 @@ namespace WebApplication1.Controllers
         }
 
         //get all authors from database (getAuthors())
+        // GET: api/Authors/GetAuthors
         [HttpGet]
         [Route("GetAuthors")]
-        public JsonResult GetAuthors()
+        public ActionResult<IEnumerable<Author>> GetAuthors()
         {
-            string query = "select * from authors";
-            DataTable table = new DataTable();
-            string? sqlDatasource = _configuration.GetConnectionString("pubsDBCon");
-            SqlDataReader myReader;
+            // Retrieve all authors from the database using Entity Framework Core
+            var authors = _context.Authors.ToList();
 
-            using(SqlConnection myCon=new SqlConnection(sqlDatasource))
-            {
-                myCon.Open();
-                /* This code executes my getAuthors sql command to my pubs
-                database and loads the result (all authors) into a 'DataTable' */
-                using(SqlCommand myCommand = new SqlCommand(query,myCon))
-                {
-                    myReader=myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            // Log the number of rows returned by the query
-            //Console.WriteLine($"Number of rows returned from database: {table.Rows.Count}");
-
-            return new JsonResult(table);
+            return authors;
         }
 
         //get all books from database (getBooks())
         [HttpGet]
         [Route("GetBooks")]
-        public JsonResult GetBooks()
+        public IActionResult GetBooks()
         {
-            string query = "select * from titles";
-            DataTable table = new DataTable();
-            string? sqlDatasource = _configuration.GetConnectionString("pubsDBCon");
-            SqlDataReader myReader;
+            // Retrieve all books from the 'titles' table using EF Core
+            var books = _context.Titles.ToList();
 
-            using(SqlConnection myCon=new SqlConnection(sqlDatasource))
-            {
-                myCon.Open();
-                /* This code executes my getAuthors sql command to my pubs
-                database and loads the result (all authors) into a 'DataTable' */
-                using(SqlCommand myCommand = new SqlCommand(query,myCon))
-                {
-                    myReader=myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult(table);
+            return Ok(books);
         }
 
         //create author in pubs database
         [HttpPost]
         [Route("CreateAuthor")]
-        public JsonResult CreateAuthor([FromForm] Author newAuthor){
+        public IActionResult CreateAuthor([FromBody] Author newAuthor)
+        {
+            // Generate a random AU_ID
             string au_id = GenerateRandomAu_id();
-            int isContract = (newAuthor.contract.ToLower() == "true") ? 1 : 0;//may need to change this a bit
-            string query = "INSERT INTO authors VALUES(@au_id, @au_lname, @au_fname, @phone, @address, @city, @state, @zip, @contract)";
-            DataTable table = new DataTable();
-            string? sqlDatasource = _configuration.GetConnectionString("pubsDBCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDatasource))
-            {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@au_id", au_id);
-                    myCommand.Parameters.AddWithValue("@au_lname", newAuthor.au_lname);
-                    myCommand.Parameters.AddWithValue("@au_fname", newAuthor.au_fname);
-                    myCommand.Parameters.AddWithValue("@phone", newAuthor.phone);
-                    if(!string.IsNullOrEmpty(newAuthor.address)){
-                        myCommand.Parameters.AddWithValue("@address", newAuthor.address);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@address", DBNull.Value);
-                    }
-                    if(!string.IsNullOrEmpty(newAuthor.city)){
-                        myCommand.Parameters.AddWithValue("@city", newAuthor.city);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@city", DBNull.Value);
-                    }
-                    if(!string.IsNullOrEmpty(newAuthor.state)){
-                        myCommand.Parameters.AddWithValue("@state", newAuthor.state);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@state", DBNull.Value);
-                    }
-                    if(!string.IsNullOrEmpty(newAuthor.zip)){
-                        myCommand.Parameters.AddWithValue("@zip", newAuthor.zip);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@zip", DBNull.Value);
-                    }
-                    myCommand.Parameters.AddWithValue("@contract", isContract);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
+
+            //address
+            if(string.IsNullOrEmpty(newAuthor.address)){
+                newAuthor.address = null;
             }
-            return new JsonResult("Author added successfully!!!");
+            //city
+            if(string.IsNullOrEmpty(newAuthor.city)){
+                newAuthor.city = null;
+            }
+            //state
+            if(string.IsNullOrEmpty(newAuthor.state)){
+                newAuthor.state = null;
+            }
+            //zip
+            if(string.IsNullOrEmpty(newAuthor.zip)){
+                newAuthor.zip = null;
+            }
+
+            // Create a new Author object
+            var author = new Author
+            {
+                au_id = au_id,
+                au_lname = newAuthor.au_lname,
+                au_fname = newAuthor.au_fname,
+                phone = newAuthor.phone,
+                address = newAuthor.address,
+                city = newAuthor.city,
+                state = newAuthor.state,
+                zip = newAuthor.zip,
+                contract = newAuthor.contract //was isContract
+            };
+
+            // Add the new Author object to the context
+            _context.Authors.Add(author);
+
+            // Save changes to the database
+            _context.SaveChanges();
+
+           // return Ok("Author added successfully!!!");
+           return Ok(new { message = "Author added successfully!!!" });
         }
 
         //deletes author from pubs database
         [HttpDelete]
         [Route("DeleteAuthor/{id}")]
-        public JsonResult DeleteAuthor(string id)
+        public IActionResult DeleteAuthor(string id)
         {
-            string query = "DELETE FROM titleauthor WHERE au_id = @id delete from authors where au_id=@id";
-            DataTable table = new DataTable();
-            string? sqlDatasource = _configuration.GetConnectionString("pubsDBCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDatasource))
+            // Find the author by id
+            var author = _context.Authors.Find(id);
+    
+            // If the author is not found, return a not found response
+            if (author == null)
             {
-                myCon.Open();
-
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@id", id);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
+                return NotFound();
             }
-            return new JsonResult("Deleted Successfully");
-        }
 
+            // Remove the author from the context
+            _context.Authors.Remove(author);
+
+            // Save changes to the database
+            _context.SaveChanges();
+
+            // Return a success response
+            return Ok(new { message = "Deleted Successfully" });
+        }
 
 
         //edits/updates author in pubs database
+        // Edits/updates author in pubs database
         [HttpPut]
         [Route("UpdateAuthor/{id}")]
-        public JsonResult UpdateAuthor(string id, Author updatedAuthor)
+        public IActionResult UpdateAuthor(string id, Author updatedAuthor)
         {
-            int isContract = (updatedAuthor.contract.ToLower() == "true") ? 1 : 0;//may need to change this a bit
-            string query = "UPDATE authors SET au_fname = @au_fname, au_lname = @au_lname, phone = @phone, address = @address, city = @city, state = @state, zip = @zip, contract = @contract WHERE au_id = @au_id";
-            DataTable table = new DataTable();
-            string? sqlDatasource = _configuration.GetConnectionString("pubsDBCon");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDatasource))
+            // Find the author by id
+            var author = _context.Authors.Find(id);
+
+            // If the author is not found, return a not found response
+            if (author == null)
             {
-                myCon.Open();
-
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
-                {
-                    myCommand.Parameters.AddWithValue("@au_fname", updatedAuthor.au_fname);
-                    myCommand.Parameters.AddWithValue("@au_lname", updatedAuthor.au_lname);
-                    myCommand.Parameters.AddWithValue("@phone", updatedAuthor.phone);
-                    if(!string.IsNullOrEmpty(updatedAuthor.address)){
-                        myCommand.Parameters.AddWithValue("@address", updatedAuthor.address);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@address", DBNull.Value);
-                    }
-                    if(!string.IsNullOrEmpty(updatedAuthor.city)){
-                        myCommand.Parameters.AddWithValue("@city", updatedAuthor.city);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@city", DBNull.Value);
-                    }
-                    if(!string.IsNullOrEmpty(updatedAuthor.state)){
-                        myCommand.Parameters.AddWithValue("@state", updatedAuthor.state);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@state", DBNull.Value);
-                    }
-                    if(!string.IsNullOrEmpty(updatedAuthor.zip)){
-                        myCommand.Parameters.AddWithValue("@zip", updatedAuthor.zip);
-                    }
-                    else{
-                        myCommand.Parameters.AddWithValue("@zip", DBNull.Value);
-                    }
-                    myCommand.Parameters.AddWithValue("@contract", isContract);
-                    myCommand.Parameters.AddWithValue("@au_id", id);
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
+                return NotFound();
             }
-            return new JsonResult("Updated Successfully");
+
+            // Update the author's properties
+            author.au_fname = updatedAuthor.au_fname;
+            author.au_lname = updatedAuthor.au_lname;
+            author.phone = updatedAuthor.phone;
+            //address
+            if(!string.IsNullOrEmpty(updatedAuthor.address)){
+                author.address = updatedAuthor.address;
+            }
+            else{
+                author.address = null;
+            }
+            //city
+            if(!string.IsNullOrEmpty(updatedAuthor.city)){
+                author.city = updatedAuthor.city;
+            }
+            else{
+                author.city = null;
+            }
+            //state
+            if(!string.IsNullOrEmpty(updatedAuthor.state)){
+                author.state = updatedAuthor.state;
+            }
+            else{
+                author.state = null;
+            }
+            //zip
+            if(!string.IsNullOrEmpty(updatedAuthor.zip)){
+                author.zip = updatedAuthor.zip;
+            }
+            else{
+                author.zip = null;
+            }
+            author.contract = updatedAuthor.contract;
+
+            try
+            {
+                // Save changes to the database
+                _context.SaveChanges();
+
+                // Return a success response
+                return Ok(new { message = "Updated Successfully" });
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that occur during the update process
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating author: " + ex.Message);
+            }
         }
-
-
-
-
-
     }
 }

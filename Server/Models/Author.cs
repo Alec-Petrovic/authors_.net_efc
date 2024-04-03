@@ -21,9 +21,10 @@ public partial class Author
 
     public string? zip { get; set; }
 
-    public string contract { get; set; } = null!;
+    public bool contract { get; set; }//was a string
 
     public virtual ICollection<Retired> Retireds { get; set; } = new List<Retired>();
 
     public virtual ICollection<Titleauthor> Titleauthors { get; set; } = new List<Titleauthor>();
 }
+
