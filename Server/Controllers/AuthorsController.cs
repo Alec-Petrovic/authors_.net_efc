@@ -118,18 +118,29 @@ namespace WebApplication1.Controllers
         {
             // Find the author by id
             var author = _context.Authors.Find(id);
-    
+
             // If the author is not found, return a not found response
-            if (author == null)
-            {
-                return NotFound();
+             if (author == null)
+             {
+                 return NotFound();
+             }
+
+            //find authors bookId if it exists (in titleauthor)
+            var bookIds = _context.Titleauthors
+                                .Where(ta => ta.AuId == id)
+                                .Select(ta => ta.TitleId)
+                                .ToList();
+            
+            foreach(var bookId in bookIds){
+                var titleauthor = _context.Titleauthors.Find(id, bookId);
+                _context.Titleauthors.Remove(titleauthor);
             }
 
             // Remove the author from the context
-            _context.Authors.Remove(author);
+             _context.Authors.Remove(author);
 
-            // Save changes to the database
-            _context.SaveChanges();
+             // Save changes to the database
+             _context.SaveChanges();
 
             // Return a success response
             return Ok(new { message = "Deleted Successfully" });
